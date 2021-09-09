@@ -1,41 +1,66 @@
-const colors = [
-    '#FFFFFF',
-    '#2196F3',
-    '#4CAF50',
-    '#FF9800',
-    '#009688',
-    '#795548',
-  ];
-
+import imagesPromise from "./apiService.js";
+import template from "./template.hbs";
 const refs = {
     bodyEl: document.querySelector('body'),
-    startButton: document.querySelector("[data-action='start']"),
-    stopButton: document.querySelector("[data-action='stop']"),
+    inputEl: document.querySelector('input'),
 }
-console.log(refs.bodyEl);
-console.log(refs.startButton);
-console.log(refs.stopButton);
+let page = 1;
 
-let idd;
 
-const randomIntegerFromInterval = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
-const colorChange = e =>{
-    refs.startButton.disabled = true;
-    refs.stopButton.disabled = false;
-    const qwe = () =>{
-        refs.bodyEl.style.backgroundColor = colors[randomIntegerFromInterval(0, colors.length)];
+const insertImages = (e) =>{
+
+    const ulEl = document.querySelectorAll('ul');
+    ulEl.forEach( ul => ul.remove() );
+
+    if(e.target.value !== ''){
+    console.log(imagesPromise(e.target.value, page));
+    imagesPromise(e.target.value, page)
+    .then( datas =>{ 
+       return datas.hits.map( data =>{
+           //console.log(data.pageURL);
+           //console.log(data);
+           refs.bodyEl.insertAdjacentHTML('beforeend', template(data));
+           //return data.pageURL;
+       });
+    })
+    .then( smth =>{
+        page = page + 1;
+        console.log(page);
+        return page;
+    });
+    // page += 1;
+    // console.log(page);
     }
+    else{
+        const ulEll = document.querySelectorAll('ul');
+        ulEll.forEach( ul => ul.remove() );
 
-    idd = window.setInterval(qwe, 1000);
-    console.log('Start');
+        page = 1;
+        console.log(page);
+         imagesPromise(e.target.value, page)
+         .then( datas =>{ 
+          //return datas.hits.map( data =>{
+            //console.log(data.pageURL);
+            //console.log(data);
+    //        refs.bodyEl.insertAdjacentHTML('beforeend', template(data));
+            //return data.pageURL;
+          const ulEll = document.querySelectorAll('ul');
+          ulEll.forEach( ul => ul.remove() );
+          page = 1;
+          console.log(page);
+          return page;
+        });
+    // });
+    }
 }
-const stopColorChange = () =>{
-    refs.startButton.disabled = false;
-    refs.stopButton.disabled = true;
-    clearInterval(idd);
-    console.log('Stop');
-}
-refs.startButton.addEventListener('click', colorChange);
-refs.stopButton.addEventListener('click', stopColorChange);
+
+
+// insertImages('flowers', 1);
+// const inputText = e =>{
+//     console.log(e.target.value);
+//     return e.target.value;
+// }
+//refs.inputEl.addEventListener('input', inputText);
+refs.inputEl.addEventListener('input', insertImages);
+//refs.bodyEl.insertAdjacentHTML('afterbegin', insertImages('flowers', 1));
+console.log("hi");
