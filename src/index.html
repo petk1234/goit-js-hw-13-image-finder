@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homework 11 color switch</title>
+    <title>Homework 13 image finder</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -12,8 +16,17 @@
   </head>
 
 <body>
-    <button type="button" data-action="start">Start</button>
-    <button type="button" data-action="stop">Stop</button>
+  <form class="search-form" id="search-form">
+      <input
+        type="text"
+        name="query"
+        autocomplete="off"
+        placeholder="Search images..."
+      />
+  </form>
+  <ul class="gallery">
+
+  </ul>
     <script src="index.js"></script>
   </body>
 </html>
